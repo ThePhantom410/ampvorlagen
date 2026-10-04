@@ -1,0 +1,12 @@
+[
+    {
+        "UpdateStageName": "Ollama Download",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"mkdir -p ollama && cd ollama || exit 1; mkdir -p models home; VER='{{ServerVersion}}'; ARCH=$(uname -m); if [[ $ARCH == x86_64 ]]; then ARCH=amd64; elif [[ $ARCH == aarch64 || $ARCH == arm64 ]]; then ARCH=arm64; else echo Unsupported CPU architecture: $ARCH; exit 1; fi; if [[ -z $VER ]]; then VER=$(wget -qO- https://api.github.com/repos/ollama/ollama/releases/latest | jq -r .tag_name); fi; if [[ ! $VER =~ ^v[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then echo Could not determine a valid Ollama version: $VER; exit 1; fi; if [[ -x bin/ollama && -f .installed_version && $(cat .installed_version) == $VER ]]; then echo Ollama $VER already installed. Skipping; exit 0; fi; command -v zstd >/dev/null 2>&1 || { echo zstd is not installed. Install it with: apt install zstd; exit 1; }; rm -f ollama.tar.zst; wget -qO ollama.tar.zst https://github.com/ollama/ollama/releases/download/$VER/ollama-linux-$ARCH.tar.zst || { echo Download failed from GitHub. Aborting; rm -f ollama.tar.zst; exit 1; }; rm -rf bin lib; tar --zstd -xf ollama.tar.zst || { echo Extraction failed. Aborting; rm -f ollama.tar.zst; exit 1; }; rm -f ollama.tar.zst; chmod +x bin/ollama; echo $VER > .installed_version; echo Ollama $VER downloaded\"",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": false,
+        "OneShot": false
+    }
+]

@@ -1,0 +1,89 @@
+[
+  {
+    "DisplayName": "Listen-Adresse",
+    "Description": "Auf welcher Adresse die Ollama-API lauscht. 127.0.0.1 ist nur lokal erreichbar (sicher). 0.0.0.0 öffnet die API für alle Netzwerke; Ollama hat keine Anmeldung, also nur mit Firewall verwenden.",
+    "FieldName": "ListenAddress",
+    "InputType": "enum",
+    "Category": "Ollama:Netzwerk",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "127.0.0.1",
+    "EnumValues": {
+      "127.0.0.1": "Nur lokal (127.0.0.1)",
+      "0.0.0.0": "Alle Schnittstellen (0.0.0.0)"
+    }
+  },
+  {
+    "DisplayName": "Kontextlänge",
+    "Description": "Maximale Kontextlänge in Tokens (OLLAMA_CONTEXT_LENGTH). Mehr Kontext braucht mehr Arbeitsspeicher.",
+    "FieldName": "ContextLength",
+    "InputType": "number",
+    "Category": "Ollama:Modelle",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "8192",
+    "minValue": "512",
+    "maxValue": "262144",
+    "Suffix": "Tokens"
+  },
+  {
+    "DisplayName": "Modell im Speicher halten",
+    "Description": "Wie lange ein Modell nach der letzten Anfrage geladen bleibt (z. B. 5m, 1h, 0 = sofort entladen, -1 = nie).",
+    "FieldName": "KeepAlive",
+    "InputType": "text",
+    "Category": "Ollama:Modelle",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "5m"
+  },
+  {
+    "DisplayName": "Max. gleichzeitig geladene Modelle",
+    "Description": "Wie viele Modelle gleichzeitig im Speicher sein dürfen (OLLAMA_MAX_LOADED_MODELS).",
+    "FieldName": "MaxLoadedModels",
+    "InputType": "number",
+    "Category": "Ollama:Modelle",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "1",
+    "minValue": "1",
+    "maxValue": "16"
+  },
+  {
+    "DisplayName": "Parallele Anfragen pro Modell",
+    "Description": "Wie viele Anfragen ein Modell gleichzeitig bearbeitet (OLLAMA_NUM_PARALLEL). Höhere Werte brauchen mehr Arbeitsspeicher.",
+    "FieldName": "NumParallel",
+    "InputType": "number",
+    "Category": "Ollama:Modelle",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "1",
+    "minValue": "1",
+    "maxValue": "16"
+  },
+  {
+    "DisplayName": "Flash Attention",
+    "Description": "Spart bei vielen Modellen Arbeitsspeicher für den Kontext (OLLAMA_FLASH_ATTENTION).",
+    "FieldName": "FlashAttention",
+    "InputType": "checkbox",
+    "Category": "Ollama:Modelle",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "0",
+    "EnumValues": {
+      "False": "0",
+      "True": "1"
+    }
+  },
+  {
+    "DisplayName": "Ollama-Version",
+    "Description": "Leer lassen für die neueste Version. Zum Festlegen die Version mit v angeben, z. B. v0.35.1.",
+    "FieldName": "ServerVersion",
+    "InputType": "text",
+    "Category": "Ollama:Update",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "",
+    "Placeholder": "leer = neueste Version",
+    "SkipIfEmpty": true
+  }
+]

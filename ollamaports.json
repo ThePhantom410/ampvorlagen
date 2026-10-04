@@ -1,0 +1,9 @@
+[
+    {
+        "Protocol": "TCP",
+        "Port": "11434",
+        "Name": "Server Port",
+        "Description": "Port der Ollama-API",
+        "Ref": "ServerPort"
+    }
+]
