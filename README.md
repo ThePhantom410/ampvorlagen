@@ -1,0 +1,2 @@
+# AMP-Ollama
+amp template
