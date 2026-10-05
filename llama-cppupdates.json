@@ -1,0 +1,22 @@
+[
+    {
+        "UpdateStageName": "llama.cpp bauen",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"mkdir -p llama/models && cd llama || exit 1; VER='{{ServerVersion}}'; if [[ -z $VER ]]; then VER=$(wget -qO- https://api.github.com/repos/ggml-org/llama.cpp/releases/latest | jq -r .tag_name); fi; if [[ ! $VER =~ ^b[0-9]+$ ]]; then echo Could not determine a valid llama.cpp version: $VER; exit 1; fi; if [[ -x bin/llama-server && -f .installed_version && $(cat .installed_version) == $VER ]]; then echo llama.cpp $VER already installed. Skipping; exit 0; fi; command -v cmake >/dev/null 2>&1 && command -v g++ >/dev/null 2>&1 || { echo cmake or g++ is missing. Restart the instance so the container packages get installed; exit 1; }; rm -rf src src.tar.gz; mkdir src; wget -qO src.tar.gz https://github.com/ggml-org/llama.cpp/archive/refs/tags/$VER.tar.gz || { echo Source download failed. Aborting; rm -rf src src.tar.gz; exit 1; }; tar -xzf src.tar.gz -C src --strip-components=1 || { echo Extraction failed. Aborting; rm -rf src src.tar.gz; exit 1; }; echo Building llama.cpp $VER for this CPU. This takes several minutes. Progress: llama/build.log; cmake -S src -B src/build -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DGGML_NATIVE=ON -DLLAMA_OPENSSL=OFF -DLLAMA_BUILD_TESTS=OFF -DLLAMA_BUILD_EXAMPLES=OFF > build.log 2>&1 || { echo Configure failed. See llama/build.log; exit 1; }; cmake --build src/build --config Release -j $(nproc) --target llama-server >> build.log 2>&1 || { echo Build failed. See llama/build.log; exit 1; }; rm -rf bin; mkdir bin; cp src/build/bin/llama-server bin/ || { echo llama-server binary not found; exit 1; }; rm -rf src src.tar.gz; echo $VER > .installed_version; echo llama.cpp $VER built\"",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": false,
+        "OneShot": false
+    },
+    {
+        "UpdateStageName": "Modell laden",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"mkdir -p llama/models && cd llama/models || exit 1; URL='{{ModelURL}}'; FILE='{{ModelFile}}'; if [[ -z $URL ]]; then echo No model URL set. Put the GGUF file into llama/models yourself; exit 0; fi; if [[ ! $FILE =~ ^[A-Za-z0-9._-]+\\.gguf$ ]]; then echo Invalid model file name: $FILE; exit 1; fi; if [[ ! $URL =~ ^https://[A-Za-z0-9._/%+=:@-]+$ ]]; then echo Invalid model URL; exit 1; fi; if [[ -s $FILE ]]; then echo Model $FILE already present. Skipping; exit 0; fi; echo Downloading $FILE. This can take a long time.; wget -c --progress=dot:giga -O $FILE.part $URL || { echo Model download failed. Run the update again to resume; exit 1; }; mv $FILE.part $FILE && echo Model $FILE downloaded\"",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": false,
+        "OneShot": false
+    }
+]

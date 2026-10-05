@@ -1,0 +1,165 @@
+[
+  {
+    "DisplayName": "Modelldatei",
+    "Description": "Dateiname der GGUF-Datei im Ordner llama/models.",
+    "FieldName": "ModelFile",
+    "InputType": "text",
+    "Category": "llama.cpp:Modell",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf",
+    "Required": true
+  },
+  {
+    "DisplayName": "Download-Link",
+    "Description": "Direkter https-Link zur GGUF-Datei (z. B. von huggingface.co, 'resolve/main/...'). Beim Update wird die Datei geladen, falls sie fehlt. Leer lassen, um die Datei selbst abzulegen.",
+    "FieldName": "ModelURL",
+    "InputType": "text",
+    "Category": "llama.cpp:Modell",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "https://huggingface.co/unsloth/Qwen3-Coder-30B-A3B-Instruct-GGUF/resolve/main/Qwen3-Coder-30B-A3B-Instruct-Q4_K_M.gguf"
+  },
+  {
+    "DisplayName": "CPU-Threads",
+    "Description": "Anzahl der Threads fuer die Textgenerierung (--threads). Mehr ist nicht immer schneller, probier Werte bis zur Zahl deiner physischen Kerne.",
+    "FieldName": "Threads",
+    "InputType": "number",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "8",
+    "ParamFieldName": "threads",
+    "minValue": "1",
+    "maxValue": "256"
+  },
+  {
+    "DisplayName": "Kontextlaenge",
+    "Description": "Maximale Kontextlaenge in Tokens (--ctx-size). Mehr Kontext braucht mehr Arbeitsspeicher.",
+    "FieldName": "ContextSize",
+    "InputType": "number",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "8192",
+    "ParamFieldName": "ctx-size",
+    "minValue": "512",
+    "maxValue": "1048576",
+    "Suffix": "Tokens"
+  },
+  {
+    "DisplayName": "Parallele Anfragen",
+    "Description": "Anzahl der Slots (--parallel). Der Kontext wird auf die Slots aufgeteilt.",
+    "FieldName": "Parallel",
+    "InputType": "number",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "1",
+    "ParamFieldName": "parallel",
+    "minValue": "1",
+    "maxValue": "64"
+  },
+  {
+    "DisplayName": "Flash Attention",
+    "Description": "--flash-attn: auto, an oder aus.",
+    "FieldName": "FlashAttn",
+    "InputType": "enum",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "auto",
+    "ParamFieldName": "flash-attn",
+    "EnumValues": {
+      "auto": "Automatisch",
+      "on": "An",
+      "off": "Aus"
+    }
+  },
+  {
+    "DisplayName": "KV-Cache Typ K",
+    "Description": "--cache-type-k. Kleinere Typen sparen Speicher und kosten etwas Genauigkeit.",
+    "FieldName": "CacheTypeK",
+    "InputType": "enum",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "f16",
+    "ParamFieldName": "cache-type-k",
+    "EnumValues": {
+      "f16": "f16 (Standard, genau)",
+      "q8_0": "q8_0 (halber Speicher)",
+      "q4_0": "q4_0 (kleinster Speicher)"
+    }
+  },
+  {
+    "DisplayName": "KV-Cache Typ V",
+    "Description": "--cache-type-v. Quantisierte V-Typen brauchen Flash Attention (An).",
+    "FieldName": "CacheTypeV",
+    "InputType": "enum",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "f16",
+    "ParamFieldName": "cache-type-v",
+    "EnumValues": {
+      "f16": "f16 (Standard, genau)",
+      "q8_0": "q8_0 (halber Speicher)",
+      "q4_0": "q4_0 (kleinster Speicher)"
+    }
+  },
+  {
+    "DisplayName": "Lademodus",
+    "Description": "--load-mode: Automatisch nutzt mmap (schneller Start, das Betriebssystem darf das Modell auslagern). 'Im RAM festhalten' verhindert das Auslagern, braucht aber genug freien Arbeitsspeicher. 'Ohne Spezialmodus' laedt das Modell komplett in den RAM.",
+    "FieldName": "LoadMode",
+    "InputType": "enum",
+    "Category": "llama.cpp:Leistung",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "auto",
+    "ParamFieldName": "load-mode",
+    "EnumValues": {
+      "auto": "Automatisch (mmap)",
+      "mmap+mlock": "Im RAM festhalten (mmap + mlock)",
+      "none": "Ohne Spezialmodus"
+    }
+  },
+  {
+    "DisplayName": "Listen-Adresse",
+    "Description": "127.0.0.1 ist nur lokal erreichbar (sicher). 0.0.0.0 oeffnet den Server fuer alle Netzwerke, dann unbedingt einen API-Key setzen und den Port per Firewall schuetzen.",
+    "FieldName": "ListenAddress",
+    "InputType": "enum",
+    "Category": "llama.cpp:Netzwerk",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "127.0.0.1",
+    "ParamFieldName": "host",
+    "EnumValues": {
+      "127.0.0.1": "Nur lokal (127.0.0.1)",
+      "0.0.0.0": "Alle Schnittstellen (0.0.0.0)"
+    }
+  },
+  {
+    "DisplayName": "API-Key",
+    "Description": "Optional. Wenn gesetzt, muss jeder Client diesen Key senden (--api-key).",
+    "FieldName": "ApiKey",
+    "InputType": "password",
+    "Category": "llama.cpp:Netzwerk",
+    "IncludeInCommandLine": true,
+    "Hidden": false,
+    "DefaultValue": "",
+    "ParamFieldName": "api-key",
+    "SkipIfEmpty": true
+  },
+  {
+    "DisplayName": "llama.cpp-Version",
+    "Description": "Leer = neueste Version. Zum Festlegen den Release-Tag angeben, z. B. b7049.",
+    "FieldName": "ServerVersion",
+    "InputType": "text",
+    "Category": "llama.cpp:Update",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "",
+    "Placeholder": "leer = neueste Version"
+  }
+]
