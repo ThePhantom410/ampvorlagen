@@ -1,0 +1,111 @@
+[
+  {
+    "DisplayName": "Listen-Adresse",
+    "Description": "127.0.0.1 ist nur lokal erreichbar. 0.0.0.0 macht die Oberflaeche im Netzwerk erreichbar (dann Firewall/Reverse-Proxy mit HTTPS verwenden).",
+    "FieldName": "ListenAddress",
+    "InputType": "enum",
+    "Category": "Open WebUI:Netzwerk",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "127.0.0.1",
+    "EnumValues": {
+      "127.0.0.1": "Nur lokal (127.0.0.1)",
+      "0.0.0.0": "Alle Schnittstellen (0.0.0.0)"
+    }
+  },
+  {
+    "DisplayName": "Backend-URL (OpenAI-kompatibel)",
+    "Description": "Adresse der API, mit der Open WebUI spricht, inklusive /v1. Standard: dein llama.cpp-Server.",
+    "FieldName": "BackendURL",
+    "InputType": "text",
+    "Category": "Open WebUI:Netzwerk",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "http://127.0.0.1:11435/v1",
+    "Required": true
+  },
+  {
+    "DisplayName": "Backend-API-Key",
+    "Description": "API-Key fuer das Backend. Wenn der llama.cpp-Server keinen Key hat, 'none' lassen.",
+    "FieldName": "BackendKey",
+    "InputType": "password",
+    "Category": "Open WebUI:Netzwerk",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "none"
+  },
+  {
+    "DisplayName": "Name der Oberflaeche",
+    "Description": "Titel, der im Browser angezeigt wird.",
+    "FieldName": "WebuiName",
+    "InputType": "text",
+    "Category": "Open WebUI:Konto",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "Open WebUI"
+  },
+  {
+    "DisplayName": "Registrierung erlauben",
+    "Description": "Ob sich neue Nutzer selbst registrieren koennen. Das erste Konto wird immer Admin. Danach am besten ausschalten.",
+    "FieldName": "EnableSignup",
+    "InputType": "enum",
+    "Category": "Open WebUI:Konto",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "False",
+    "EnumValues": {
+      "False": "Nein",
+      "True": "Ja"
+    }
+  },
+  {
+    "DisplayName": "Rolle neuer Nutzer",
+    "Description": "Rolle bei Selbstregistrierung. 'pending' = Admin muss freigeben.",
+    "FieldName": "DefaultRole",
+    "InputType": "enum",
+    "Category": "Open WebUI:Konto",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "pending",
+    "EnumValues": {
+      "pending": "Wartet auf Freigabe",
+      "user": "Nutzer",
+      "admin": "Admin"
+    }
+  },
+  {
+    "DisplayName": "Offline-Modus",
+    "Description": "Verhindert Zugriffe auf Hugging Face u. a. Funktioniert erst, wenn die Embedding-Modelle schon geladen sind.",
+    "FieldName": "OfflineMode",
+    "InputType": "enum",
+    "Category": "Open WebUI:Konto",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "False",
+    "EnumValues": {
+      "False": "Nein",
+      "True": "Ja"
+    }
+  },
+  {
+    "DisplayName": "Open-WebUI-Version",
+    "Description": "Leer = neueste Version. Zum Festlegen z. B. 0.11.4 (ohne v).",
+    "FieldName": "ServerVersion",
+    "InputType": "text",
+    "Category": "Open WebUI:Update",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "",
+    "Placeholder": "leer = neueste Version"
+  },
+  {
+    "DisplayName": "PyTorch-Paketquelle",
+    "Description": "CPU-only-Quelle verhindert, dass mehrere GB CUDA-Pakete geladen werden. Leer = nur PyPI (gross). Schlaegt die Quelle fehl, wird automatisch PyPI genutzt.",
+    "FieldName": "TorchIndex",
+    "InputType": "text",
+    "Category": "Open WebUI:Update",
+    "IncludeInCommandLine": false,
+    "Hidden": false,
+    "DefaultValue": "https://download.pytorch.org/whl/cpu"
+  }
+]

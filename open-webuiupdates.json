@@ -1,0 +1,12 @@
+[
+    {
+        "UpdateStageName": "Open WebUI installieren",
+        "UpdateSourcePlatform": "Linux",
+        "UpdateSource": "Executable",
+        "UpdateSourceData": "/bin/bash",
+        "UpdateSourceArgs": "-c \"mkdir -p webui/data webui/home webui/uv-cache && cd webui || exit 1; export UV_PYTHON_INSTALL_DIR=$PWD/python UV_CACHE_DIR=$PWD/uv-cache UV_LINK_MODE=copy UV_NO_PROGRESS=1; VER='{{ServerVersion}}'; TIDX='{{TorchIndex}}'; ARCH=$(uname -m); if [[ $ARCH == x86_64 ]]; then UVA=x86_64; elif [[ $ARCH == aarch64 || $ARCH == arm64 ]]; then UVA=aarch64; else echo Unsupported CPU architecture: $ARCH; exit 1; fi; if [[ -n $VER && ! $VER =~ ^[0-9]+\\.[0-9]+\\.[0-9]+$ ]]; then echo Invalid Open WebUI version: $VER. Use e.g. 0.11.4; exit 1; fi; if [[ -x venv/bin/open-webui && -f .installed_version && -n $VER && $(cat .installed_version) == $VER ]]; then echo Open WebUI $VER already installed. Skipping; exit 0; fi; if [[ ! -x bin/uv ]]; then rm -rf uvtmp && mkdir -p uvtmp bin && wget -qO uvtmp/uv.tar.gz https://github.com/astral-sh/uv/releases/latest/download/uv-$UVA-unknown-linux-gnu.tar.gz && tar -xzf uvtmp/uv.tar.gz -C uvtmp --strip-components=1 && cp uvtmp/uv bin/uv && chmod +x bin/uv; rm -rf uvtmp; fi; [[ -x bin/uv ]] || { echo Could not download uv from GitHub. Aborting; exit 1; }; [[ -x venv/bin/python ]] || bin/uv venv --python 3.11 --managed-python venv || { echo Could not create Python 3.11 environment. Aborting; exit 1; }; PKG=open-webui; if [[ -n $VER ]]; then PKG=open-webui==$VER; fi; echo Installing $PKG. This can take several minutes; if [[ -n $TIDX ]]; then bin/uv pip install --python venv/bin/python --upgrade --extra-index-url $TIDX --index-strategy unsafe-best-match $PKG || { echo Install with CPU index failed. Retrying with PyPI only; bin/uv pip install --python venv/bin/python --upgrade $PKG; }; else bin/uv pip install --python venv/bin/python --upgrade $PKG; fi || { echo Installation failed. Aborting; exit 1; }; [[ -x venv/bin/open-webui ]] || { echo open-webui executable missing after install. Aborting; exit 1; }; bin/uv cache clean >/dev/null 2>&1; rm -rf uv-cache/*; INST=$(bin/uv pip show --python venv/bin/python open-webui | grep ^Version: | cut -d' ' -f2); echo $INST > .installed_version; echo Open WebUI $INST installed\"",
+        "UnzipUpdateSource": false,
+        "OverwriteExistingFiles": false,
+        "OneShot": false
+    }
+]

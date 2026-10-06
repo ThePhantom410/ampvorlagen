@@ -1,0 +1,9 @@
+[
+    {
+        "Protocol": "TCP",
+        "Port": "3000",
+        "Name": "Web Port",
+        "Description": "Port der Open-WebUI-Weboberflaeche",
+        "Ref": "ServerPort"
+    }
+]
